@@ -10,8 +10,9 @@ const navItems = [
   ["AI Solutions", "/ai-solutions"],
   ["Strategic Intelligence", "/strategic-intelligence"],
   ["Research", "/research"],
-  ["Case Studies", "/case-studies"],
+  ["Testimonials", "/testimonials"],
   ["About", "/about"],
+  ["Careers", "/careers"],
   ["Contact", "/contact"],
 ];
 

@@ -12,7 +12,7 @@ import {
   Cpu,
   BarChart3,
 } from "lucide-react";
-import { SectionLabel, Marquee } from "@/components/ui";
+import { SectionLabel } from "@/components/ui";
 import { useReveal } from "@/lib/useReveal";
 
 const aiTags = [
@@ -122,19 +122,15 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="hero-number" aria-hidden="true">
-          01
-        </div>
       </section>
 
-      <Marquee label="Cadira AI capabilities marquee">
-        <span>Automate the work</span>
-        <span>Decode the markets</span>
-        <span>Ship the system</span>
-        <span>Scale the intelligence</span>
-      </Marquee>
+      <div className="hiring-badge-wrap reveal">
+        <Link className="hiring-badge neo-btn" href="/careers">
+          We&apos;re Hiring <ArrowRight size={16} />
+        </Link>
+      </div>
 
-      <section className="section verticals" id="verticals">
+      <section className="section section-tight verticals" id="verticals">
         <div className="section-heading reveal">
           <SectionLabel>What We Do</SectionLabel>
           <h2>Two disciplines. One decision advantage.</h2>
@@ -312,16 +308,6 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
-
-      <section className="clients" id="clients">
-        <SectionLabel>Trusted By</SectionLabel>
-        <Marquee label="Client names marquee">
-          <span>ApexLink AI</span>
-          <span>FylDrop</span>
-          <span>Forward-thinking businesses</span>
-          <span>Institutional research partners</span>
-        </Marquee>
       </section>
 
       <section className="section booking" id="booking">

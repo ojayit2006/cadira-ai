@@ -33,11 +33,16 @@ export default function ContactPage() {
             Schedule a 30-minute discovery call. We will map your operation, identify automation
             opportunities, and outline a path forward.
           </p>
-          <a className="btn btn-primary btn-large neo-btn" href="https://calendly.com/ojayittelang/30min" target="_blank" rel="noreferrer">
+          <a
+            className="btn btn-primary btn-large neo-btn"
+            href="https://calendly.com/ojayittelang/30min"
+            target="_blank"
+            rel="noreferrer"
+          >
             Open Scheduler <CalendarDays size={22} />
           </a>
         </div>
-        <div className="calendly-frame reveal">
+        <div className="calendly-frame neo-card reveal">
           <iframe
             src="https://calendly.com/ojayittelang/30min"
             title="Book a Demo with Cadira AI"

@@ -40,13 +40,4 @@ We're hiring — see the Careers page on the site for open roles and how to appl
 The marketing site (Next.js App Router). Pages: Home, AI Solutions, Strategic Intelligence, Research,
 Testimonials, About, Careers, Contact.
 
-### Development
 
-```bash
-npm install
-npm run dev
-```
-
-Copy `.env.example` to `.env.local` and fill in the Cal ID credentials if working on the scheduler
-integration (`app/api/cal/*`, `components/BookingWidget.jsx`) — `/contact` currently uses a Calendly
-embed instead, so this is only needed if you're revisiting that integration.

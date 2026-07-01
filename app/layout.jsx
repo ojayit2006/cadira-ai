@@ -1,22 +1,34 @@
-import { Space_Grotesk } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import { FloatDemo } from "@/components/ui";
 
-const spaceGrotesk = Space_Grotesk({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
+  variable: "--font-dm",
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Cadira AI | AI Systems for Smarter Businesses",
+  title: "Cadira AI | Enterprise AI & Decision Intelligence",
   description:
-    "Cadira AI builds intelligent automation systems, data intelligence pipelines, and AI-powered tools for modern businesses.",
+    "Cadira AI develops enterprise AI solutions and quantitative intelligence platforms that help organizations automate operations, understand markets, and make faster, data-driven decisions.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={spaceGrotesk.variable}>{children}</body>
+    <html lang="en" className={dmSans.variable}>
+      <body>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Nav />
+        <main id="main">{children}</main>
+        <Footer />
+        <FloatDemo />
+      </body>
     </html>
   );
 }

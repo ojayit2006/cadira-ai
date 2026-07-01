@@ -1,390 +1,352 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
-  CalendarDays,
+  ArrowUpRight,
+  Bot,
+  LineChart,
   Check,
-  Code2,
-  DatabaseZap,
-  Mail,
-  MapPin,
-  Menu,
-  MousePointer2,
-  Send,
-  Sparkles,
-  Workflow,
-  X,
-  Zap,
+  FileText,
+  Newspaper,
+  Cpu,
+  BarChart3,
 } from "lucide-react";
+import { SectionLabel, Marquee } from "@/components/ui";
+import { useReveal } from "@/lib/useReveal";
 
-const navItems = [
-  ["About", "about"],
-  ["Services", "services"],
-  ["Process", "process"],
-  ["Clients", "clients"],
-  ["Contact", "contact"],
+const aiTags = [
+  "Agentic AI Systems",
+  "Enterprise Copilots",
+  "Workflow Automation",
+  "RAG Applications",
+  "Computer Vision",
+  "Voice AI",
+  "Data Engineering",
+  "AI Integrations",
+  "Custom ML Solutions",
 ];
 
-const services = [
+const intelTags = [
+  "Market Intelligence",
+  "Industry Research",
+  "Earnings Call Analysis",
+  "Quantitative Analytics",
+  "Economic Dashboards",
+  "Risk Monitoring",
+  "Alternative Data Analysis",
+  "Competitive Intelligence",
+  "Decision Support Systems",
+];
+
+const enterpriseAI = ["AI Agents", "Automation", "LLM Applications", "RAG", "AI Infrastructure", "Computer Vision", "NLP", "Voice Systems"];
+
+const intelligenceSolutions = [
+  "Financial Analytics",
+  "Market Intelligence",
+  "Risk Intelligence",
+  "Executive Dashboards",
+  "Economic Monitoring",
+  "Research Automation",
+  "Competitive Intelligence",
+  "Predictive Analytics",
+];
+
+const comparison = [
   {
-    title: "AI Software Development",
-    copy: "Custom AI systems, internal tools, and automation products built around your operations.",
-    icon: Code2,
+    title: "Traditional AI Agencies",
+    result: "Build software.",
   },
   {
-    title: "Data Intelligence",
-    copy: "Structured and unstructured data analysis that turns noise into decisions your team can use.",
-    icon: DatabaseZap,
+    title: "Research Firms",
+    result: "Produce insights.",
   },
   {
-    title: "Workflow Automation",
-    copy: "AI-powered process redesign that removes repetitive work and gives time back to operators.",
-    icon: Workflow,
+    title: "Cadira AI",
+    result: "Builds intelligent software powered by institutional-grade research.",
+    highlight: true,
+  },
+];
+
+const research = [
+  {
+    category: "Financial Markets",
+    title: "Quantifying Instability: Bubble Signals in Financial Markets",
+    abstract:
+      "A quantitative framework for detecting early instability patterns across equity and credit markets using structural and behavioral indicators.",
   },
   {
-    title: "Conversion Systems",
-    copy: "Customer journey optimization using behavioral data, funnel logic, and intelligent triggers.",
-    icon: MousePointer2,
+    category: "Industry Research",
+    title: "Industry Intelligence Reports",
+    abstract:
+      "Sector-level research covering competitive positioning, structural shifts, and demand signals across priority industries.",
   },
   {
-    title: "Lead Intelligence",
-    copy: "Data extraction, enrichment, and ranking systems for sharper acquisition and faster follow-up.",
-    icon: Sparkles,
+    category: "AI Systems",
+    title: "AI & Financial Systems Research",
+    abstract:
+      "Applied research on how large language models and agentic systems are reshaping financial analysis and decision workflows.",
   },
 ];
 
 const process = [
-  ["Understand", "Map the operation, pressure points, data quality, and the exact outcome worth building for."],
-  ["Build", "Prototype the AI system with tight loops, measurable behavior, and practical integrations."],
-  ["Deploy", "Ship into the real workflow, connect the stack, train the team, and remove friction."],
-  ["Scale", "Monitor usage, tune performance, and expand the system as the business grows."],
+  ["Understand the Problem", "Map the operation, the decision being made, and the outcome that needs to move."],
+  ["Collect & Engineer Data", "Assemble structured and unstructured data sources and prepare them for modeling."],
+  ["Build AI Models", "Develop the AI systems, agents, and analytical models the problem requires."],
+  ["Generate Strategic Intelligence", "Translate model output into research, dashboards, and decision-ready intelligence."],
+  ["Deploy & Continuously Improve", "Ship into the real workflow and refine the system as conditions change."],
 ];
-
-const reasons = [
-  "Fast execution",
-  "AI-first architecture",
-  "Custom-built systems",
-  "Scalable infrastructure",
-];
-
-const metrics = [
-  ["5+", "AI Solutions Delivered"],
-  ["2+", "Clients Served"],
-  ["100%", "Custom Architecture"],
-  ["10x", "Productivity Potential"],
-];
-
-function Logo() {
-  return (
-    <a className="logo" href="#hero" aria-label="Cadira AI home">
-      <span className="logo-mark" aria-hidden="true">
-        C
-      </span>
-      <span>Cadira AI</span>
-    </a>
-  );
-}
-
-function Marquee({ children, reverse = false, label }) {
-  return (
-    <div className="marquee" aria-label={label}>
-      <div className={`marquee-track ${reverse ? "reverse" : ""}`}>
-        <div className="marquee-set">{children}</div>
-        <div className="marquee-set" aria-hidden="true">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SectionLabel({ children }) {
-  return <p className="section-label">{children}</p>;
-}
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [sent, setSent] = useState(false);
-
-  const marqueeStats = useMemo(
-    () =>
-      metrics.map(([value, label]) => (
-        <span className="marquee-item" key={label}>
-          <strong>{value}</strong>
-          <span>{label}</span>
-        </span>
-      )),
-    []
-  );
-
-  useEffect(() => {
-    const navbar = document.querySelector(".site-nav");
-    const hero = document.querySelector(".hero-lockup");
-    const reveals = document.querySelectorAll(".reveal");
-
-    const onScroll = () => {
-      const progress = Math.min(window.scrollY / 520, 1);
-      document.documentElement.style.setProperty("--hero-scale", `${1 + progress * 0.18}`);
-      document.documentElement.style.setProperty("--hero-opacity", `${1 - progress * 0.92}`);
-      navbar?.classList.toggle("scrolled", window.scrollY > 24);
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
-        });
-      },
-      { threshold: 0.16, rootMargin: "0px 0px -48px 0px" }
-    );
-
-    reveals.forEach((node) => observer.observe(node));
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      reveals.forEach((node) => observer.unobserve(node));
-      hero?.removeAttribute("style");
-    };
-  }, []);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setSent(true);
-  }
+  useReveal();
 
   return (
     <>
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      <nav className="site-nav">
-        <div className="nav-inner">
-          <Logo />
-          <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-            {navItems.map(([label, id]) => (
-              <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>
-                {label}
-              </a>
-            ))}
+      <section className="hero" id="hero">
+        <div className="hero-lockup">
+          <p className="eyebrow status-badge">Enterprise AI / Decision Intelligence / Quantitative Research</p>
+          <h1>
+            Build Intelligent Systems.
+            <span>Drive Better Decisions.</span>
+          </h1>
+          <p className="hero-copy">
+            Cadira AI develops enterprise AI solutions and quantitative intelligence platforms that help
+            organizations automate operations, understand markets, and make faster, data-driven decisions.
+          </p>
+          <div className="hero-actions">
+            <Link className="btn btn-primary btn-large neo-btn" href="/contact">
+              Start a Project <ArrowRight size={22} />
+            </Link>
+            <Link className="btn btn-outline btn-large neo-btn" href="/research">
+              Explore Research <ArrowUpRight size={22} />
+            </Link>
           </div>
-          <div className="nav-actions">
-            <a className="btn btn-ghost" href="#booking">
-              Book Demo
-            </a>
-            <a className="btn btn-primary" href="#contact">
-              Start
-            </a>
-          </div>
-          <button
-            className="menu-button"
-            type="button"
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((value) => !value)}
-          >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
-      </nav>
+        <div className="hero-number" aria-hidden="true">
+          01
+        </div>
+      </section>
 
-      <main id="main">
-        <section className="hero" id="hero">
-          <div className="hero-lockup">
-            <p className="eyebrow">Intelligent Automation / Data Intelligence / AI Systems</p>
-            <h1>
-              AI Systems
-              <span>For Smarter</span>
-              Businesses
-            </h1>
-            <p className="hero-copy">
-              Cadira AI builds sharp, custom automation systems that help businesses move faster,
-              decide smarter, and scale with less operational drag.
+      <Marquee label="Cadira AI capabilities marquee">
+        <span>Automate the work</span>
+        <span>Decode the markets</span>
+        <span>Ship the system</span>
+        <span>Scale the intelligence</span>
+      </Marquee>
+
+      <section className="section verticals" id="verticals">
+        <div className="section-heading reveal">
+          <SectionLabel>What We Do</SectionLabel>
+          <h2>Two disciplines. One decision advantage.</h2>
+        </div>
+        <div className="vertical-grid">
+          <article className="vertical-card neo-card reveal">
+            <div className="vertical-card-head">
+              <h3>AI Solutions</h3>
+              <Bot size={36} strokeWidth={1.8} />
+            </div>
+            <p>Build production-ready AI systems tailored to your business.</p>
+            <ul className="vertical-tags">
+              {aiTags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+            <Link className="btn btn-primary neo-btn" href="/ai-solutions">
+              View Services <ArrowRight size={18} />
+            </Link>
+          </article>
+
+          <article className="vertical-card neo-card reveal">
+            <div className="vertical-card-head">
+              <h3>Financial &amp; Strategic Intelligence</h3>
+              <LineChart size={36} strokeWidth={1.8} />
+            </div>
+            <p>
+              Institutional-grade quantitative research and AI-powered market intelligence for better
+              strategic decisions.
             </p>
-            <div className="hero-actions">
-              <a className="btn btn-primary btn-large" href="#contact">
-                Get Started <ArrowRight size={22} />
-              </a>
-              <a className="btn btn-outline btn-large" href="#booking">
-                Book a Demo <CalendarDays size={22} />
-              </a>
-            </div>
-          </div>
-          <div className="hero-number" aria-hidden="true">
-            01
-          </div>
-        </section>
+            <ul className="vertical-tags">
+              {intelTags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+            <Link className="btn btn-primary neo-btn" href="/strategic-intelligence">
+              Explore Intelligence <ArrowRight size={18} />
+            </Link>
+          </article>
+        </div>
+      </section>
 
-        <Marquee label="Cadira AI capabilities marquee">
-          <span>Automate the work</span>
-          <span>Decode the data</span>
-          <span>Ship the system</span>
-          <span>Scale the outcome</span>
-        </Marquee>
-
-        <section className="about section" id="about">
-          <div className="wide-grid">
-            <div className="reveal">
-              <SectionLabel>About Us</SectionLabel>
-              <h2>Built on intelligence. Driven by outcomes.</h2>
+      <section className="section capabilities" id="capabilities">
+        <div className="section-heading reveal">
+          <SectionLabel>Capabilities</SectionLabel>
+          <h2>Capabilities at a glance.</h2>
+        </div>
+        <div className="services-columns reveal">
+          <div>
+            <div className="services-category-head">
+              <Cpu size={26} strokeWidth={1.8} />
+              <h3>Enterprise AI</h3>
             </div>
-            <div className="about-copy reveal">
-              <p>
-                Cadira AI is an early-stage AI systems company focused on practical automation,
-                useful data intelligence, and scalable custom software.
-              </p>
-              <p>
-                We do not sell generic software. We design systems around your actual workflows,
-                your constraints, and the business result that needs to move.
-              </p>
+            <ul className="services-list">
+              {enterpriseAI.map((item) => (
+                <li className="neo-card" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="services-category-head">
+              <BarChart3 size={26} strokeWidth={1.8} />
+              <h3>Intelligence Solutions</h3>
             </div>
+            <ul className="services-list">
+              {intelligenceSolutions.map((item) => (
+                <li className="neo-card" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="principle-grid reveal">
-            {["AI-first architecture", "Measurable outcomes", "Built to compound"].map((item, index) => (
-              <article className="principle-card" key={item}>
-                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <h3>{item}</h3>
-              </article>
-            ))}
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="section services" id="services">
-          <div className="section-heading reveal">
-            <SectionLabel>What We Do</SectionLabel>
-            <h2>Systems that replace drag with velocity.</h2>
+      <section className="section why" id="why">
+        <div className="section-heading reveal">
+          <SectionLabel>Why Cadira</SectionLabel>
+          <h2>AI Engineering Meets Quantitative Research.</h2>
+        </div>
+        <div className="compare-grid reveal">
+          {comparison.map((item) => (
+            <article
+              className={`compare-card neo-card ${item.highlight ? "highlight" : ""}`}
+              key={item.title}
+            >
+              <h4>{item.title}</h4>
+              <ArrowRight size={20} />
+              <p>{item.result}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section research" id="research">
+        <div className="section-heading reveal">
+          <SectionLabel>Research &amp; Insights</SectionLabel>
+          <h2>Original research behind every system we build.</h2>
+        </div>
+        <div className="research-grid">
+          {research.map((item) => (
+            <article className="research-card neo-card reveal" key={item.title}>
+              <div className="research-card-top">
+                <span className="status-badge">{item.category}</span>
+                <Newspaper size={20} />
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.abstract}</p>
+              <Link className="read-report" href="/research">
+                Read Report <FileText size={16} />
+              </Link>
+            </article>
+          ))}
+        </div>
+        <Link className="btn btn-outline neo-btn" href="/research" style={{ marginTop: "2rem" }}>
+          View All Research <ArrowRight size={18} />
+        </Link>
+      </section>
+
+      <section className="section" id="featured-research">
+        <div className="feature-banner reveal">
+          <div className="feature-banner-inner">
+            <h2>
+              Original Research. <br />
+              Built with Data. <br />
+              Powered by <em>AI</em>.
+            </h2>
+            <p>
+              Cadira AI publishes quantitative research and analytical frameworks covering financial
+              markets, artificial intelligence, and strategic decision-making.
+            </p>
           </div>
-          <div className="service-grid">
-            {services.map(({ title, copy, icon: Icon }, index) => (
-              <article className="service-card reveal" key={title}>
-                <span className="card-number" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <Icon size={34} strokeWidth={1.8} />
+        </div>
+      </section>
+
+      <section className="section process" id="process">
+        <div className="section-heading reveal">
+          <SectionLabel>How We Work</SectionLabel>
+          <h2>From Data to Decisions.</h2>
+        </div>
+        <div className="timeline">
+          {process.map(([title, copy], index) => (
+            <article className="timeline-step neo-card reveal" key={title}>
+              <span className="step-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              <div>
                 <h3>{title}</h3>
                 <p>{copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="stats-band" aria-label="Cadira AI metrics">
-          <Marquee label="Cadira AI stats marquee" reverse>
-            {marqueeStats}
-          </Marquee>
-        </section>
-
-        <section className="section process" id="process">
-          <div className="section-heading reveal">
-            <SectionLabel>How We Work</SectionLabel>
-            <h2>Clear process. Loud results.</h2>
-          </div>
-          <div className="process-stack">
-            {process.map(([title, copy], index) => (
-              <article className="process-card reveal" key={title}>
-                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section why" id="why">
-          <div className="why-panel reveal">
-            <div>
-              <SectionLabel>Why Cadira AI</SectionLabel>
-              <h2>The competitive edge that compounds.</h2>
-            </div>
-            <div className="reason-list">
-              {reasons.map((reason) => (
-                <div className="reason" key={reason}>
-                  <Check size={22} />
-                  <span>{reason}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="clients" id="clients">
-          <SectionLabel>Trusted By</SectionLabel>
-          <Marquee label="Client names marquee">
-            <span>ApexLink AI</span>
-            <span>FylDrop</span>
-            <span>Forward-thinking businesses</span>
-            <span>Automation-led teams</span>
-          </Marquee>
-        </section>
-
-        <section className="section booking" id="booking">
-          <div className="booking-copy reveal">
-            <SectionLabel>Book a Session</SectionLabel>
-            <h2>Ready to build something intelligent?</h2>
-            <p>
-              Schedule a 30-minute discovery call. We will map your operation, identify automation
-              opportunities, and outline a path forward.
-            </p>
-            <a className="btn btn-primary btn-large" href="https://calendly.com/ojayittelang/30min" target="_blank">
-              Open Scheduler <CalendarDays size={22} />
-            </a>
-          </div>
-          <div className="calendly-frame reveal">
-            <iframe
-              src="https://calendly.com/ojayittelang/30min"
-              title="Book a Demo with Cadira AI"
-              loading="lazy"
-            />
-          </div>
-        </section>
-
-        <section className="section contact" id="contact">
-          <div className="contact-copy reveal">
-            <SectionLabel>Get in Touch</SectionLabel>
-            <h2>Let's talk about your business.</h2>
-            <p>
-              Have a specific project in mind or want to explore what AI can do for your operations?
-              Send us a message.
-            </p>
-            <a href="mailto:ojayittelang@gmail.com">
-              <Mail size={22} /> ojayittelang@gmail.com
-            </a>
-            <span>
-              <MapPin size={22} /> Mumbai
-            </span>
-          </div>
-          <form className="contact-form reveal" onSubmit={handleSubmit}>
-            <label htmlFor="name">Your Name</label>
-            <input id="name" name="name" type="text" placeholder="John Smith" required />
-            <label htmlFor="email">Email Address</label>
-            <input id="email" name="email" type="email" placeholder="john@company.com" required />
-            <label htmlFor="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell us what you are trying to solve" required />
-            <button className="btn btn-primary btn-large" type="submit" disabled={sent}>
-              {sent ? "Message Ready" : "Send Message"} <Send size={22} />
-            </button>
-          </form>
-        </section>
-      </main>
-
-      <footer>
-        <div className="footer-top">
-          <Logo />
-          <p>AI systems for smarter businesses. Built custom. Built sharp. Built to scale.</p>
+              </div>
+            </article>
+          ))}
         </div>
-        <div className="footer-bottom">
-          <span>2026 Cadira AI. All rights reserved.</span>
-          <span>Founder: Ojayit Telang / Co-Founder: Gurjeev Kohli</span>
-        </div>
-      </footer>
+      </section>
 
-      <a className="float-demo" href="#booking">
-        <Zap size={18} /> Book Demo
-      </a>
+      <section className="about section" id="about">
+        <div className="wide-grid">
+          <div className="reveal">
+            <SectionLabel>About Cadira</SectionLabel>
+            <h2>Engineering and research, under one roof.</h2>
+          </div>
+          <div className="about-copy reveal">
+            <p>
+              Cadira AI develops intelligent software and quantitative analytics that help organizations
+              automate complex workflows, understand markets, and make better strategic decisions.
+            </p>
+            <p>
+              Our work spans enterprise AI, machine learning, financial analytics, and decision
+              intelligence — bridging cutting-edge engineering with rigorous research.
+            </p>
+            <Link className="btn btn-outline neo-btn" href="/about">
+              More About Cadira <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="clients" id="clients">
+        <SectionLabel>Trusted By</SectionLabel>
+        <Marquee label="Client names marquee">
+          <span>ApexLink AI</span>
+          <span>FylDrop</span>
+          <span>Forward-thinking businesses</span>
+          <span>Institutional research partners</span>
+        </Marquee>
+      </section>
+
+      <section className="section booking" id="booking">
+        <div className="booking-copy reveal">
+          <SectionLabel>Get Started</SectionLabel>
+          <h2>Ready to build your decision advantage?</h2>
+          <p>
+            Tell us about the system you need to build or the intelligence you need to move faster.
+            We will map the path from data to decisions.
+          </p>
+          <Link className="btn btn-primary btn-large neo-btn" href="/contact">
+            Start a Project <ArrowRight size={22} />
+          </Link>
+        </div>
+        <div className="reason-list reveal">
+          {["Enterprise AI", "Decision Intelligence", "Quantitative Research", "Institutional Research"].map(
+            (reason) => (
+              <div className="reason" key={reason}>
+                <Check size={22} />
+                <span>{reason}</span>
+              </div>
+            )
+          )}
+        </div>
+      </section>
     </>
   );
 }

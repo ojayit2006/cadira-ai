@@ -9,6 +9,7 @@ const team = [
   { initials: "GK", name: "Gurjeev Kohli", title: "Co-Founder & CFO" },
   { initials: "PS", name: "Prathamesh Sonawane", title: "Director of Marketing & People Operations" },
   { initials: "PR", name: "Pranav Sapkale", title: "Executive Director of Research & Intelligence" },
+  { initials: "PY", name: "Prem Yadav", title: "Executive Director of AI Strategy & Technology" },
 ];
 
 export default function CareersPage() {
